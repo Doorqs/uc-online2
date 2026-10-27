@@ -1,4 +1,4 @@
-name: Build Windows DLL
+name: Build Everything
 
 on:
   push:
@@ -15,12 +15,15 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
-    - name: Build the Project
+    - name: Build the Entire Solution
       run: |
-        msbuild uc_online2.vcxproj /p:Configuration=Release /p:Platform=Win32
+        msbuild uc_online2.sln /p:Configuration=Release /p:Platform=Win32
+        msbuild uc_online2.sln /p:Configuration=Release /p:Platform=x64
 
-    - name: Upload Compiled Files
+    - name: Upload Everything
       uses: actions/upload-artifact@v4
       with:
-        name: uc-online2-compiled-dlls
-        path: '**/*.dll'
+        name: uc-online2-full-build
+        path: |
+          **/*.dll
+          **/*.exe

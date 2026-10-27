@@ -1,8 +1,8 @@
 name: Build Windows DLL
 
-on: 
+on:
   push:
-  workflow_dispatch: # This allows you to run it manually from the GitHub website
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,16 +16,11 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Build the Project
-      # This builds both x64 and Win32 (32-bit) just in case
       run: |
-        msbuild uc_online2.vcxproj /p:Configuration=Release /p:Platform=x64
         msbuild uc_online2.vcxproj /p:Configuration=Release /p:Platform=Win32
 
     - name: Upload Compiled Files
       uses: actions/upload-artifact@v4
       with:
         name: uc-online2-compiled-dlls
-        # This grabs whatever DLLs were generated in the Release folders
-        path: |
-          x64/Release/*.dll
-          Release/*.dll
+        path: '**/*.dll'
